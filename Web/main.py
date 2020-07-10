@@ -10,6 +10,10 @@ def homepage():
 def signin():
     return render_template("signin.html")
 
+@app.route('/accedi')
+def accedi():
+    return render_template("accedi.html")
+
 @app.route('/resizeImage')
 def resizeImage():
     return render_template("resizeImage.html")
