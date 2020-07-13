@@ -1,0 +1,27 @@
+Per passare i parametri alla funzione lambda è stato utilizzato Gateway API 
+fornito direttamente da amazon. In particolare ci aspettiamo una richiesta
+di tipo GET con parametri pari a quelli aspettati dalla funzione. La api 
+risulta essere di tipo GET. Ogni volta che si esegue una modifica alla API 
+nelle operazioni dovrà essere successivamente eseguita una nuova distribuzione
+per apportare effettivamente le modifiche.
+
+Con la funzione lamda lavoriamo in locale. Per questo scopo è stata creata
+una tempdir nella quale prima scarichiamo il file da s3, lo lavoriamo attraverso la 
+libreria PIL e successivamente andiamo ad eseguire un nuovo upload dello stesso file 
+in un nuovo bucket.
+
+probabilmente la funzione lambda dovrà essere sempre modificata in quanto
+al suo interno vi è la definizione di S3 con le variabili di accesso definite da amazon
+una volta che è stabilita la sessione.
+
+
+Per quanto riguarda il caricamento della funzione lambda, poiché utilizziamo librerie
+esterne a quelle di amazon, è stato necessario creare un ambiente di esecuzione in locale
+nel quale scaricare le librerie di riferimento. Successivamente per comodità è stato 
+creato un bucket s3 che contiene gli zip delle funzioni lambda create, in modo tale da fornirle
+direttamente quando richieste.
+
+////////////////////////
+per eseguire la funzione lamdba resize, utilizzare il seguente link:
+https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize=300&hSize=300&imgName=prova.png
+///////////////////////
