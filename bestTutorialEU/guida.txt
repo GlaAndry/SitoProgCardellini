@@ -21,7 +21,25 @@ nel quale scaricare le librerie di riferimento. Successivamente per comodità è
 creato un bucket s3 che contiene gli zip delle funzioni lambda create, in modo tale da fornirle
 direttamente quando richieste.
 
-////////////////////////
+///////////////////////
 per eseguire la funzione lamdba resize, utilizzare il seguente link:
 https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize=300&hSize=300&imgName=prova.png
 ///////////////////////
+
+///////////////////////
+per eseguire la funzione lambda B&W, utilizzare il seguente link:
+https://3fsi3za5x1.execute-api.us-east-1.amazonaws.com/default/bewImg?imgName=prova.png
+///////////////////////
+
+///////////////////////
+per eseguire la funzione saturation:
+https://5f9858gv9l.execute-api.us-east-1.amazonaws.com/default/satimg?imgName=prova.png&factor=1.5
+///////////////////////
+
+///////////////////////
+per eseguire la funzione brightness:
+https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName=prova.png&factor=1.5
+///////////////////////
+
+per le funzioni brightness e saturation è stato necessario aumentare il limite del timeout. In particolare è stato portato 
+ad un minuto.
