@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+	<h4>{{ msg }} </h4>
+
+      <form action="/newpost"  method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="image" id="image">
+            <label class="custom-file-label" for="image">Select image...</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+      </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+---
+  - name: Provision an EC2 Instance. 
+    hosts: localhost
+    gather_facts: False
+
+    tasks:
+        - ec2:
+            key_name: gabrieler-frankfurt
+            region: eu-central-1
+            group: default-ssh-web
+            instance_type: t2.micro
+            image: ami-0f3a43fbf2d3899f7
+            wait: yes
+            wait_timeout: 500
+            count: 1
+            instance_tags:
+               app: photogallery
+            vpc_subnet_id: subnet-0ef1f676
+            assign_public_ip: yes

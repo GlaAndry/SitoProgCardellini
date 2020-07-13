@@ -1,0 +1,53 @@
+<!-- http://www.brucelawson.co.uk/2010/a-minimal-html5-document/ -->
+
+<!doctype html>
+<html lang=en>
+	<head>
+		<meta charset=utf-8>
+		<title>FlaskPlot</title>
+
+		<!-- Milligram -->
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css">
+
+	</head>
+	<body>
+		<main class="wrapper">
+			<section class="container">
+				<h2><a href="/">FlaskPlot</a></h2>
+
+				<p>{{ count }} function(s) plotted so far.</p>
+
+				<p><b>{{ message }}</b></p>
+
+			</section>
+
+			<section class="container" id="form">
+				<form action="/plot" method="POST">
+					<fieldset>
+						<label for="funcField">Function</label>
+						<input type="text" name="function" id="funcField">
+						<label for="minXfield">X axis minimum value</label>
+						<input type="text" name="xmin" value="0">
+						<label for="maxXfield">X axis maximum value</label>
+						<input type="text" name="xmax" value="10">
+						<label for="userField">User name</label>
+						<input type="text" name="name" id="userField">
+
+						<input class="button-primary" type="submit" value="Send">
+					</fieldset>
+				</form>
+			</section>
+
+			<section class="container" id="last">
+				{% if lastfigure is defined and lastfigure is not none %}
+					<h4>Last plot</h4>
+					<p>Requested by {{ lastuser }}:</p>
+
+					<img src="data:image/png;base64,{{ lastfigure }}">
+				{% endif %}
+			</section>
+		</main>
+	</body>
+</html>

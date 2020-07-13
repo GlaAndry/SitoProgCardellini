@@ -1,0 +1,10 @@
+[Unit]
+Description=Simple systemd service for our web application.
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ec2-user/photogallery
+ExecStart=/bin/bash /home/ec2-user/photogallery/run.sh
+
+[Install]
+WantedBy=multi-user.target
