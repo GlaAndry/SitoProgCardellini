@@ -52,8 +52,10 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Funzioni</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
-            <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
+          <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
+          <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
+          <a class="dropdown-item" href="{{ url_for('brightness') }}">Brightness</a>
+          <a class="dropdown-item" href="{{ url_for('saturation') }}">Saturation</a>
 
         </div>
       </li>
@@ -73,22 +75,15 @@
 
     <form action="/doResize" method="POST" enctype="multipart/form-data">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-        </div>
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="image" name="image"
             aria-describedby="inputGroupFileAddon01">
           <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
         </div>
-        
         <div class="form-group">
-          <label for="exampleInputEmail1">Altezza</label>
           <input type="text" class="form-control" id="hSize" name="hSize" placeholder="Inserire Altezza">
         </div>
-
         <div class="form-group">
-          <label for="exampleInputEmail1">Largezza</label>
           <input type="text" class="form-control" id="wSize" name="wSize" placeholder="Inserire Larghezza">
         </div>
       </div>

@@ -48,8 +48,10 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Funzioni</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="{{ url_for('resizeImage') }}">ResizeImage</a>
-            <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
+          <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
+          <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
+          <a class="dropdown-item" href="{{ url_for('brightness') }}">Brightness</a>
+          <a class="dropdown-item" href="{{ url_for('saturation') }}">Saturation</a>
         </div>
       </li>
     </ul>
@@ -65,7 +67,24 @@
   <div class="starter-template">
     <h1>Resize Image</h1>
     <p class="lead">Use this page to resize any image you want.</p>
+
+    <form action="/doBeW" method="POST" enctype="multipart/form-data">
+      <div class="input-group">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="image" name="image"
+            aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+      </div>
+    
+      <button type="submit" class= "btn btn-primary">Upload Image</button>
+    </form>    
+
+
   </div>
+
+  
+
 
 </main><!-- /.container -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

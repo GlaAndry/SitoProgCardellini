@@ -54,7 +54,8 @@
         <div class="dropdown-menu" aria-labelledby="dropdown01">
             <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
             <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
-
+            <a class="dropdown-item" href="{{ url_for('brightness') }}">Brightness</a>
+            <a class="dropdown-item" href="{{ url_for('saturation') }}">Saturation</a>
         </div>
       </li>
     </ul>
@@ -71,25 +72,16 @@
     <h1>Resize Image</h1>
     <p class="lead">Use this page to resize any image you want.</p>
 
-    <form action="/doResize" method="POST" enctype="multipart/form-data">
+    <!--Attraverso l'action /doSaturation andiamo a richiamare la funzione all'interno del main.-->
+    <form action="/doSaturation" method="POST" enctype="multipart/form-data">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-        </div>
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="image" name="image"
             aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          <label class="custom-file-label" for="inputGroupFile01">Scegliere l'immagine da inserire</label>
         </div>
-        
         <div class="form-group">
-          <label for="exampleInputEmail1">Altezza</label>
-          <input type="text" class="form-control" id="hSize" name="hSize" placeholder="Inserire Altezza">
-        </div>
-
-        <div class="form-group">
-          <label for="exampleInputEmail1">Largezza</label>
-          <input type="text" class="form-control" id="wSize" name="wSize" placeholder="Inserire Larghezza">
+          <input type="text" class="form-control" id="factor" name="factor" placeholder="Inserire Fattore">
         </div>
       </div>
     
