@@ -59,10 +59,16 @@
         </div>
       </li>
     </ul>
+    {%if results2 == ""%}
     <form class="form-inline my-2 my-lg-0">
       <a class="nav-link" href="{{ url_for('signin') }}">Registrazione<span class="sr-only">(current)</span></a>
       <a class="nav-link" href="{{ url_for('accedi') }}">Accedi<span class="sr-only">(current)</span></a>
-  </form>
+    </form>
+    {% else %}
+    <form class="form-inline my-2 my-lg-0">
+      <a class="nav-link" href="/doLogout">Log-out {{ results2 }}<span class="sr-only">(current)</span></a>
+    </form>
+    {% endif %}
   </div>
 </nav>
 
@@ -81,23 +87,25 @@
               <tr>     
                   <th>{{'Nome Utente'}}</th>
                   <th>{{'Funzione'}}</th>
-                  <th>{{'Link'}}</th>
+                  <th>{{'Nome'}}</th>
                   <th>{{'Download'}}</th>
               </tr>
             </thead>
             <tbody>
-              {% for row in results %}
-                <tr>
-                    <td>{{row.get('NomeUtente')}}</td>
-                    <td>{{row.get('funzione')}}</td>
-                    <td>{{row.get('link')}}</td>
-                    <td>
-                      <form action="/doDownloadFromUrl" method="POST" enctype="multipart/form-data">
-                        <button type="submit" name="urlButton" value="{{  row.get('link')  }}" class= "btn btn-primary">Download</button>
-                      </form>
-                    </td>
-                </tr>
-              {% endfor %}
+              {% if len(results) != 0 %}
+                {% for row in results %}
+                  <tr>
+                      <td>{{row.get('NomeUtente')}}</td>
+                      <td>{{row.get('funzione')}}</td>
+                      <td>{{row.get('nomeImmagine')}}</td>
+                      <td>
+                        <form action="/doDownloadFromUrl" method="POST" enctype="multipart/form-data">
+                          <button type="submit" name="urlButton" value="{{  row.get('link')  }}" class= "btn btn-primary">Download</button>
+                        </form>
+                      </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}      
             </tbody>
           </table>
         {% endif %}

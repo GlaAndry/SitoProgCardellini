@@ -112,12 +112,25 @@ def allowed_ext(extFile):
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
-    return render_template("index.html")
+    print(nomeUtente)
+    return render_template("index.html", results = nomeUtente)
 
 
 @app.route('/signin')
 def signin():
     return render_template("signin.html")
+
+@app.route('/logout')
+def logout():
+    return render_template("logout.html")
+
+@app.route('/doLogout', methods=['GET', 'POST'])
+def do_logout():
+    ##inizializzo la varibaile nomeutente per eseguire il logout
+    global nomeUtente
+    nomeUtente = ""
+    return render_template("logout.html")
+
 
 @app.route('/doSignin', methods=['GET', 'POST'])
 def do_signin():
@@ -168,7 +181,7 @@ def do_accedi():
             nomeUtente = email
             #################
 
-            return render_template("accediOK.html")
+            return render_template("accediOK.html", results = nomeUtente)
 
         except Exception as e:
             print(e)
@@ -182,7 +195,7 @@ def do_accedi():
 
 @app.route('/tableImageForUser')
 def tableImageForUser():
-    return render_template("tableImageForUser.html")
+    return render_template("tableImageForUser.html", results2 = nomeUtente)
 
 
 @app.route('/doListTable', methods=['GET', 'POST'])
@@ -196,21 +209,19 @@ def do_list_table():
         
         ##Tramite dynamoDB vado ad eseguire una select sul nomeUtente.
         userImg = functionDynamo.get_element_from_table(dynamodb,"Utenti", nomeUtente)
-        if not userImg:
+        if not nomeUtente:
             return render_template('tableUserNotRegistred.html')
+        elif not userImg:
+            return render_template('tableEmptyUser.html', results2 = nomeUtente)
         else:
             for link in userImg:
-                print(link.get('link'))  
-                fun = link.get('link')[7:]
-                print(fun)
-                function , key = parse_s3_link(fun)
-                #print(fun)
-                funzione = determineFunction(function)
+                funzione = determineFunction(link.get('link')) ##determino la funzione eseguita dal sistema
+                iName = retrieve_nome_from_link(link.get('link')) ##determino il nome dell'immagine
                 ##aggiungo la funzione eseguita nel ritorno 
                 ##(userImg è una lista di dizionari, per questo è stata possibile l'associazione)
                 link['funzione'] = funzione
-                
-            return render_template('tableImageForUser.html', results=userImg, fieldnames=fieldnames, len=len)
+                link['nomeImmagine'] = iName[4]  ##Prendo la posizione 4 in base al parsing del link s3 fornito
+            return render_template('tableImageForUser.html', results=userImg, fieldnames=fieldnames, len=len, results2 = nomeUtente)
 
 
 
@@ -218,27 +229,27 @@ def do_list_table():
 
 @app.route('/resizeImage')
 def resizeImage():
-    return render_template("resizeImage.html")
+    return render_template("resizeImage.html", results = nomeUtente)
 
 
 @app.route('/black_and_white')
 def black_and_white():
-    return render_template("blackAndWhite.html")
+    return render_template("blackAndWhite.html", results = nomeUtente)
 
 
 @app.route('/saturation')
 def saturation():
-    return render_template("saturation.html")
+    return render_template("saturation.html", results = nomeUtente)
 
 
 @app.route('/brightness')
 def brightness():
-    return render_template("brightness.html")
+    return render_template("brightness.html", results = nomeUtente)
 
 
-@app.route('/links', methods=['GET', 'POST'])
+@app.route('/links')
 def links():
-    return render_template("link.html")
+    return render_template("link.html", results = nomeUtente)
 
 
 @app.route('/doBeW', methods=['GET','POST'])
@@ -522,9 +533,12 @@ def parse_s3_link(link):
 
     return key, bucket_n
 
+def retrieve_nome_from_link(link):
+    ##Questo metodo va a ricavare il nome dell'immagine 
+    ##dal link di s3 fornito.
+    nomeImmagine = link.split("/", 4)
+    return nomeImmagine
 
-
-####BUGGEDDDDDD
 def determineFunction(str):
     #Attraverso questa funzione eseguiamo il parsing del nome del bucket
     #Per determinare che tipologia di funzione è associata
@@ -537,7 +551,6 @@ def determineFunction(str):
         fun = "Black And White"
     else:
         fun = "Saturation"
-
     return fun
 
 if __name__ == "__main__":

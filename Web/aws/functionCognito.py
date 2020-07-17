@@ -76,3 +76,4 @@ def accedi_user(clientID, email, password, cognito):
             AuthFlow='USER_PASSWORD_AUTH',
             AuthParameters={'USERNAME': email, 'PASSWORD': password }
     )
+
