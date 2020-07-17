@@ -19,9 +19,9 @@ S3_BUCKET_SATURATION_AFTER             = 's3saturationbucket-after'
 
 
 ##Tutti questi dati cambiano ogni nuova sessione, sono quindi da modificare ad ogni nuovo avvio
-S3_KEY                    = '' 
-S3_SECRET                 = ''
-SESSION_TOKEN             = ''
+S3_KEY                    = 'ASIAYEAFIJNSNZDHJZEA' 
+S3_SECRET                 = 'P49zH/NwDyuXjaIXSZWg3GlZYiluuzsjjFLyk+X0'
+SESSION_TOKEN             = 'FwoGZXIvYXdzECoaDHmP3xYHYQD9FRUQdyLLAdRSW0H4uS0hppMtXaoeeTRd2vW++NVlgEckm5+BQF1iXVpJhcut+s/v+FGK8chnpm9MRHiCr7GGQT/uIeX7Kortdv9Sd2Jt/4c22dcRAN8ifL+JBN4HlQ7YIDa64KZphqIA8VSuUT+AqB0bhkzwKpJo8QqZ4f2ESogzLJeAAAzZjTZVozrw/Xi9U7elCO5pMZl1rmXz1aw6lCXSYJ5IYCFtam6n+1pMhO137M49v8trDR+aYoBy8VrjTMhrWl24BrsrkUsa35x/dUgwKK6AwvgFMi1e6DWB30tqbX8u1fsQkqzuJYWe5H5H5QXRTuRa+1rGZnw6lTmJ+y5G3zatFLo='
 
 LOCATION                  = 'us-east-1'
 

@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.0.1">
-    <title>Saturation</title>
+    <title>Tabella Immagini</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/starter-template/">
 
@@ -30,10 +30,6 @@
     </style>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/starter-template.css') }}">  </head>
-
-
-
-
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <a class="navbar-brand" href="#">Image Resources</a>
@@ -55,48 +51,67 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Funzioni</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
-            <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
-            <a class="dropdown-item" href="{{ url_for('brightness') }}">Brightness</a>
-            <a class="dropdown-item" href="{{ url_for('saturation') }}">Saturation</a>
+          <a class="dropdown-item" href="{{ url_for('resizeImage') }}">Resize-image</a>
+          <a class="dropdown-item" href="{{ url_for('black_and_white') }}">Black&White</a>
+          <a class="dropdown-item" href="{{ url_for('brightness') }}">Brightness</a>
+          <a class="dropdown-item" href="{{ url_for('saturation') }}">Saturation</a>
+
         </div>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <a class="nav-link" href="{{ url_for('signin') }}">Registrazione<span class="sr-only">(current)</span></a>
-        <a class="nav-link" href="{{ url_for('accedi') }}">Accedi<span class="sr-only">(current)</span></a>
-    </form>
+      <a class="nav-link" href="{{ url_for('signin') }}">Registrazione<span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="{{ url_for('accedi') }}">Accedi<span class="sr-only">(current)</span></a>
+  </form>
   </div>
 </nav>
 
 <main role="main" class="container">
 
   <div class="starter-template">
-    <h1>Saturation</h1>
-    <p class="lead">Use this page to modify saturation with a determined factor.</p>
-
-    <!--Attraverso l'action /doSaturation andiamo a richiamare la funzione all'interno del main.-->
-    <form action="/doSaturation" method="POST" enctype="multipart/form-data">
-      <div class="input-group">
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="image" name="image"
-            aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Scegliere l'immagine</label>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" id="factor" name="factor" placeholder="Inserire Fattore">
-        </div>
-      </div>
-    
-      <button type="submit" class= "btn btn-primary">Esegui</button>
-    </form>    
-
-
+    <h1>Immagini precedentemente processate dal sistema.</h1>
   </div>
 
+  
+    <div class="card-body">
+      <div class="mt-4">
+        {% if request.method == 'POST'%}
+          <table id="proxies" class="table table-striped" style="width: 100%">
+            <thead>
+              <tr>     
+                  <th>{{'Nome Utente'}}</th>
+                  <th>{{'Funzione'}}</th>
+                  <th>{{'Link'}}</th>
+                  <th>{{'Download'}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in results %}
+                <tr>
+                    <td>{{row.get('NomeUtente')}}</td>
+                    <td>{{row.get('funzione')}}</td>
+                    <td>{{row.get('link')}}</td>
+                    <td>
+                      <form action="/doDownloadFromUrl" method="POST" enctype="multipart/form-data">
+                        <button type="submit" name="urlButton" value="{{  row.get('link')  }}" class= "btn btn-primary">Download</button>
+                      </form>
+                    </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      </div>
+    </div>
+  
 
-
-
+  <div class="row justify-content-center">
+    <form action="/doListTable" method="POST" enctype="multipart/form-data">
+      <button type="submit" class= "btn btn-primary">Cerca le immagini</button>
+    </form>
+  </div>
+  
+</body>
 
 
 
@@ -105,3 +120,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script></body>
 </html>
+<script type="text/javascript">
+    $('#proxies').DataTable();
+  </script>

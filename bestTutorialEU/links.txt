@@ -1,1 +1,7 @@
 https://www.youtube.com/watch?v=ey6NzNA0qr4
+
+
+##Documentazione BOTO3:
+
+DynamoDB: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html
+Cognito: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cognito-idp.html#CognitoIdentityProvider.Client.sign_up

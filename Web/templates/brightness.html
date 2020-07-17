@@ -49,6 +49,9 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('links') }}">Links</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('tableImageForUser') }}">Immagini Modificate</a>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Funzioni</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -60,8 +63,8 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <a class="nav-link" href="{{ url_for('signin') }}">Registrazione<span class="sr-only">(current)</span></a>
-        <a class="nav-link" href="{{ url_for('accedi') }}">Accedi<span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="{{ url_for('signin') }}">Registrazione<span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="{{ url_for('accedi') }}">Accedi<span class="sr-only">(current)</span></a>
     </form>
   </div>
 </nav>
@@ -69,15 +72,15 @@
 <main role="main" class="container">
 
   <div class="starter-template">
-    <h1>Resize Image</h1>
-    <p class="lead">Use this page to resize any image you want.</p>
+    <h1>Brighitness</h1>
+    <p class="lead">Utilizza questa pagina per modifica il valore della luminosità dell'immagine.</p>
 
     <form action="/doBrightness" method="POST" enctype="multipart/form-data">
       <div class="input-group">
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="image" name="image"
             aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          <label class="custom-file-label" for="inputGroupFile01">Scegliere l'immagine</label>
         </div>
         
         <div class="form-group">
@@ -85,7 +88,7 @@
         </div>
       </div>
     
-      <button type="submit" class= "btn btn-primary">Upload Image</button>
+      <button type="submit" class= "btn btn-primary">Esegui</button>
     </form>    
   </div>
 

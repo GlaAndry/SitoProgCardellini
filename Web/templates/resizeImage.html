@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.0.1">
-    <title>Resize Image Function</title>
+    <title>Resize</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/starter-template/">
 
@@ -49,6 +49,9 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('links') }}">Links</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('tableImageForUser') }}">Immagini Modificate</a>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Funzioni</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -71,14 +74,14 @@
 
   <div class="starter-template">
     <h1>Resize Image</h1>
-    <p class="lead">Use this page to resize any image you want.</p>
+    <p class="lead">Utilizza questa pagina per andare ad effettuare il resizing dell'immagine.</p>
 
     <form action="/doResize" method="POST" enctype="multipart/form-data">
       <div class="input-group">
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="image" name="image"
             aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          <label class="custom-file-label" for="inputGroupFile01">Scegliere l'immagine</label>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" id="hSize" name="hSize" placeholder="Inserire Altezza">
@@ -88,7 +91,7 @@
         </div>
       </div>
     
-      <button type="submit" class= "btn btn-primary">Upload Image</button>
+      <button type="submit" class= "btn btn-primary">Esegui</button>
     </form>    
 
 
