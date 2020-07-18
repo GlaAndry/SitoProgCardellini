@@ -37,9 +37,10 @@ global imgNameDownload
 imgNameDownload = ""
 
 # app config paths
-# app.config["IMAGE_UPLOADS"] = "/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/Functions/uploadedImages" ###UBUNTU
-app.config["IMAGE_UPLOADS"] = "/Users/alessio/SitoProgCardellini/Web/resources/imageUpload"  #MAC
-app.config["IMAGE_DOWNLOADS"]= "/Users/alessio/SitoProgCardellini/Web/resources/imageDownload" #MAC
+app.config["IMAGE_UPLOADS"] = "/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/resources/imageUpload" ###UBUNTU
+app.config["IMAGE_DOWNLOADS"]= "/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/resources/imageDownload" #UBUNTU
+#app.config["IMAGE_UPLOADS"] = "/Users/alessio/SitoProgCardellini/Web/resources/imageUpload"  #MAC
+#app.config["IMAGE_DOWNLOADS"]= "/Users/alessio/SitoProgCardellini/Web/resources/imageDownload" #MAC
 app.config["ALLOWED_EXT"] = ["JPG", "PNG", "GIF", "JPEG"]
 ############
 
@@ -279,12 +280,14 @@ def doBeW():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, username+"/"+img.filename, s3, BUCKET_NAME_BeW)
                 # rest api lambda
-                url = 'https://3fsi3za5x1.execute-api.us-east-1.amazonaws.com/default/bewImg?&imgName='+img.filename
+                url = 'https://3fsi3za5x1.execute-api.us-east-1.amazonaws.com/default/bewImg?&imgName='+img.filename+'&userName='+username
+                print(url)
                 requests.get(url) ##esecuzione della rest-api
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, BUCKET_NAME_BeW, s3)
+                time.sleep(3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, configS3.S3_BUCKET_BeW_AFTER, s3)
                 ##Inserisco gli elementi all'interno di DynamoDB -->{Nome Utente, linkS3}
-                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_BeW, username, img.filename)
+                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_BeW_AFTER, username, img.filename)
                 functionDynamo.add_element_in_table(dynamodb, "Utenti", username, urlS3)
                 #rendo il nome dell'immagine globale per il successivo utilizzo nel download.
                 global imgNameDownload
@@ -297,10 +300,11 @@ def doBeW():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, img.filename, s3, BUCKET_NAME_BeW)                
                 # rest api lambda
-                url = 'https://3fsi3za5x1.execute-api.us-east-1.amazonaws.com/default/bewImg?&imgName='+img.filename
+                url = 'https://3fsi3za5x1.execute-api.us-east-1.amazonaws.com/default/bewImg?&imgName='+img.filename+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, BUCKET_NAME_BeW, s3)
+                time.sleep(3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, configS3.S3_BUCKET_BeW_AFTER, s3)
                 imgNameDownload = img.filename
                 #Eseguo il download.
                 return redirect(url_for('do_download'))
@@ -343,12 +347,13 @@ def do_resize():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, username+"/"+img.filename, s3, BUCKET_NAME_RESIZE)                
                 # rest api lambda
-                url = 'https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize='+wSize+'&hSize='+hSize+'&imgName='+img.filename
+                url = 'https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize='+wSize+'&hSize='+hSize+'&imgName='+img.filename+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
+                time.sleep(3)
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, BUCKET_NAME_RESIZE, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, configS3.S3_BUCKET_RESIZE_AFTER, s3)
                 ##Inserisco gli elementi all'interno di DynamoDB -->{Nome Utente, linkS3}
-                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_RESIZE, username, img.filename)
+                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_RESIZE_AFTER, username, img.filename)
                 functionDynamo.add_element_in_table(dynamodb, "Utenti", username, urlS3)
                 #rendo il nome dell'immagine globale per il successivo utilizzo nel download.
                 global imgNameDownload
@@ -360,10 +365,11 @@ def do_resize():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, img.filename, s3, BUCKET_NAME_RESIZE)                
                 # rest api lambda
-                url = 'https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize='+wSize+'&hSize='+hSize+'&imgName='+img.filename
+                url = 'https://62j41asgt0.execute-api.us-east-1.amazonaws.com/default/resImg?wSize='+wSize+'&hSize='+hSize+'&imgName='+img.filename+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
+                time.sleep(3)
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, BUCKET_NAME_RESIZE, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, configS3.S3_BUCKET_RESIZE_AFTER, s3)
                 imgNameDownload = img.filename
                 #Eseguo il download.
                 return redirect(url_for('do_download'))
@@ -401,12 +407,13 @@ def do_brightness():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, username+"/"+img.filename, s3, BUCKET_NAME_BRIGHTNESS)            
                 # rest api lambda
-                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor
+                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&nomeUtente='+username
                 requests.get(url) ##esecuzione della rest-api
+                time.sleep(3)##Sleep necessaria per permettere l'esecuzione effettiva della lambda.
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, BUCKET_NAME_BRIGHTNESS, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, configS3.S3_BUCKET_BRIGHTNESS_AFTER, s3)
                 ##Inserisco gli elementi all'interno di DynamoDB -->{Nome Utente, linkS3}
-                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_BRIGHTNESS, username, img.filename)
+                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_BRIGHTNESS_AFTER, username, img.filename)
                 functionDynamo.add_element_in_table(dynamodb, "Utenti", username, urlS3)
                 #rendo il nome dell'immagine globale per il successivo utilizzo nel download.
                 global imgNameDownload
@@ -418,10 +425,11 @@ def do_brightness():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, img.filename, s3, BUCKET_NAME_BRIGHTNESS)                
                 # rest api lambda
-                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor
+                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&nomeUtente='+username
                 requests.get(url) ##esecuzione della rest-api
+                time.sleep(3)##Sleep necessaria per permettere l'esecuzione effettiva della lambda.
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, BUCKET_NAME_BRIGHTNESS, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, configS3.S3_BUCKET_BRIGHTNESS_AFTER, s3)
                 imgNameDownload = img.filename
                 #Eseguo il download.
                 return redirect(url_for('do_download'))
@@ -457,12 +465,13 @@ def do_saturation():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, username+"/"+img.filename, s3, BUCKET_NAME_SATURATION)                
                 # rest api lambda
-                url = 'https://5f9858gv9l.execute-api.us-east-1.amazonaws.com/default/satimg?imgName='+img.filename+'&factor='+factor
+                url = 'https://5f9858gv9l.execute-api.us-east-1.amazonaws.com/default/satimg?imgName='+img.filename+'&factor='+factor+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
+                time.sleep(3)
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, BUCKET_NAME_SATURATION, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, username+"/"+img.filename, configS3.S3_BUCKET_SATURATION_AFTER, s3)
                 ##Inserisco gli elementi all'interno di DynamoDB -->{Nome Utente, linkS3}
-                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_SATURATION, username, img.filename)
+                urlS3 = "https://%s.s3.amazonaws.com/%s/%s" % (configS3.S3_BUCKET_SATURATION_AFTER, username, img.filename)
                 functionDynamo.add_element_in_table(dynamodb, "Utenti", username, urlS3)
                 #rendo il nome dell'immagine globale per il successivo utilizzo nel download.
                 global imgNameDownload
@@ -474,10 +483,11 @@ def do_saturation():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, img.filename, s3, BUCKET_NAME_SATURATION)                
                 # rest api lambda
-                url = 'https://5f9858gv9l.execute-api.us-east-1.amazonaws.com/default/satimg?imgName='+img.filename+'&factor='+factor
+                url = 'https://5f9858gv9l.execute-api.us-east-1.amazonaws.com/default/satimg?imgName='+img.filename+'&factor='+factor+'&userName='+username
+                time.sleep(3)
                 requests.get(url) ##esecuzione della rest-api
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
-                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, BUCKET_NAME_BRIGHTNESS, s3)
+                functionS3.downloadFromBucket(os.path.join(app.config["IMAGE_DOWNLOADS"])+"/"+img.filename, img.filename, configS3.S3_BUCKET_SATURATION_AFTER, s3)
                 imgNameDownload = img.filename
                 #Eseguo il download.
                 return redirect(url_for('do_download'))
