@@ -37,6 +37,8 @@ global imgNameDownload
 imgNameDownload = ""
 
 # app config paths
+#app.config["IMAGE_UPLOADS"] = "/home/ec2-user/SitoProgCardellini/Web/resources/imageUpload" ###EC2
+#app.config["IMAGE_DOWNLOADS"]= "/home/ec2-user/SitoProgCardellini/Web/resources/imageDownload" #EC2
 app.config["IMAGE_UPLOADS"] = "/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/resources/imageUpload" ###UBUNTU
 app.config["IMAGE_DOWNLOADS"]= "/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/resources/imageDownload" #UBUNTU
 #app.config["IMAGE_UPLOADS"] = "/Users/alessio/SitoProgCardellini/Web/resources/imageUpload"  #MAC
@@ -407,7 +409,7 @@ def do_brightness():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, username+"/"+img.filename, s3, BUCKET_NAME_BRIGHTNESS)            
                 # rest api lambda
-                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&nomeUtente='+username
+                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
                 time.sleep(3)##Sleep necessaria per permettere l'esecuzione effettiva della lambda.
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.
@@ -425,7 +427,7 @@ def do_brightness():
                 # Eseguo l'upload su s3 in quanto successivamente sfrutto le funzioni lamda.
                 functionS3.addToBucket(os.path.join(app.config["IMAGE_UPLOADS"])+"/"+img.filename, img.filename, s3, BUCKET_NAME_BRIGHTNESS)                
                 # rest api lambda
-                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&nomeUtente='+username
+                url = 'https://jx902kdqgc.execute-api.us-east-1.amazonaws.com/default/brightnessimg?imgName='+img.filename+'&factor='+factor+'&userName='+username
                 requests.get(url) ##esecuzione della rest-api
                 time.sleep(3)##Sleep necessaria per permettere l'esecuzione effettiva della lambda.
                 #Download dal bucket S3 dell'immagine, una volta che è stata processata dalla lamda.

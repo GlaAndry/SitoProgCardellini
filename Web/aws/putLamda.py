@@ -41,9 +41,9 @@ def addToBucket(path, name, s3, BUCKET_NAME):
     s3.Bucket(BUCKET_NAME).put_object(Key=name, Body=data)
     print('Upload eseguito correttamente.')
 
-#addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-resize.zip', 'lambda-resize.zip', s3, BUCKET_NAME)
+#addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-resize.zip', 'lambda-resize.zip', s3, BUCKET_NAME)#
 #addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-bew.zip', 'lambda-bew.zip', s3, BUCKET_NAME)
-#addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-bright.zip', 'lambda-bright.zip', s3, BUCKET_NAME)
+addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-bright.zip', 'lambda-bright.zip', s3, BUCKET_NAME)
 #addToBucket('/home/alessio/Scrivania/Cardellini/SitoProgCardellini/Web/aws/lambdazip/lambda-sat.zip', 'lambda-sat.zip', s3, BUCKET_NAME)
 
 

@@ -1,0 +1,7 @@
+dalla cartella con la chiave.pem per accedere in ssh:
+
+ssh -i "ResourceImage.pem" ec2-user@DNSPUBBLICO
+
+per copiare i file all'interno della macchina ec2 eseguire il seguente comando:
+
+scp -i "ResourceImage.pem" -r SitoProgCardellini ec2-user@DNSPUBBLICO:/home/ec2-user/
